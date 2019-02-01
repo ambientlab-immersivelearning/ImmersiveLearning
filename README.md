@@ -17,7 +17,7 @@ The Ambient Lab is an experimental space managed by Dr. Darren Carlson. Although
 
 <li>Advisor
 <ul>
-<li>Darren Carlson</li>
+<li>Dr. Darren Carlson</li>
 </ul>
 </li>
 
