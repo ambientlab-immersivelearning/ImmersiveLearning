@@ -1,15 +1,16 @@
 # ImmersiveLearning
 
-The *Immersive Learning* project is one of the many projects being conducted within the Ambient Lab at the University of Hawaii at Manoa.
-This is the second attempt to create the *Immersive Learning* project. The previous attempt was in 2016 and ended with a simple working version of the project, but the work is now inaccessible.
+Immersive Learning is one of the many projects being conducted by the Ambient Lab at the University of Hawaii at Manoa. This is the second attempt to create the implement the project. The previous attempt in 2016 was able to create a simple, working version of the project, but the work that was completed is now inaccessible.
 
 ## Objective
 
-The goal of the Immersive Learning project is to create a platform that enhances the learning experience for students by immersing them in the material using virtual 3D objects. The HoloLens will allow us to use augmented reality (AR) to display virtual objects over the real world without completely obstructing it. Implementing this technology in a classroom, physical or online, can allow students to observe and interact with objects that represent images or diagrams seen on videos or presentation slides during the lesson.
+The goal of Immersive Learning is to create a platform that enhances the learning experience for students by immersing them in the material with virtual 3D objects. Augmented reality (AR) to display virtual objects over the real world without completely obstructing it. Implementing this technology in a classroom, physical or online, can allow students to observe and interact with objects that represent images or diagrams seen on videos or presentation slides during the lesson.
+
+The application will be implemented using the C# and Unity game engine, and will be deployed to the Microsoft HoloLens.
 
 ## What is the Ambient Lab?
 
-The Ambient Lab is a group of a variety of students working under Dr. Darren Carlson. Sophomores, Juniors, and Seniors are 
+The Ambient Lab is an experimental space managed by Dr. Darren Carlson. Although there are students who voluteer to do research and projects without receiving credit, most of the students are Sophomores, Juniors, and Seniors working with the Ambient Lab to complete their respective projects required for graduation.
 
 ## Teams
 <ul>
