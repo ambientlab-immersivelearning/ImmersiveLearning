@@ -1,4 +1,4 @@
-# ImmersiveLearning
+# Immersive Learning
 
 Immersive Learning is one of the many projects being conducted by the Ambient Lab at the University of Hawaii at Manoa. This is the second attempt to create the implement the project. The previous attempt in 2016 was able to create a simple, working version of the project, but the work that was completed is now inaccessible.
 
@@ -14,20 +14,29 @@ The Ambient Lab is an experimental space managed by Dr. Darren Carlson. Although
 
 ## Teams
 <ul>
+  <li>Advisor
+    <ul>
+      <li>Dr. Darren Carlson</li>
+    </ul>
+  </li>
+  <br/>
+  <li>Spring 2019
+    <ul>
+      <li><a href="https://github.com/jsome635">Jacob Somera</a></li>
+      <li><a href="https://github.com/g-tolentino">Glesa Mae Tolentino</a></li>
+    </ul>
+  </li>
+</ul>
 
-<li>Advisor
+## Set up
 <ul>
-<li>Dr. Darren Carlson</li>
+  <li>To build the applicaiton</li>
+  <li>To run the application</li>
 </ul>
-</li>
 
-<br/>
-
-<li>Spring 2019
+## Creating QR Codes
 <ul>
-<li><a href="https://github.com/jsome635">Jacob Somera</a></li>
-<li><a href="https://github.com/g-tolentino">Glesa Mae Tolentino</a></li>
+  <li><a href="https://www.qr-code-generator.com/">QR Code Generator</a></li>
 </ul>
-</li>
 
-</ul>
+Create a unique QR Code by providing a URL.
