@@ -41,9 +41,9 @@ The Ambient Lab is an experimental space managed by Dr. Darren Carlson. Although
 
 Create a unique QR Code by providing a URL. To get a URL for the objects that we want to render:
 <ul>
-  <li>Go to the `object` branch</li>
-  <li>Go to the `ImmersiveLearning/Assets/Prefabs` folder</li>
-  <li>Click the file that we want to render</li>
-  <li>Click the `Raw` button in the top-right corner</li>
-  <li>Copy and paste the URL into the QR code generator</li>
+  <li>Switch to the `object` branch in a web browser</li>
+  <li>Go to the `ImmersiveLearning//AssetBundles/StandaloneWindows/` folder</li>
+  <li>Click the .unity3d asset bundle that we want to render</li>
+  <li>Right-click the `Download` button in the top-right corner</li>
+  <li>Click `Copy link address` and paste into the QR code generator</li>
 </ul>
