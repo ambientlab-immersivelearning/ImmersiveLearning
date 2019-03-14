@@ -192,6 +192,7 @@ GameObject:
   - component: {fileID: 937549428}
   - component: {fileID: 937549427}
   - component: {fileID: 937549426}
+  - component: {fileID: 937549429}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -263,3 +264,16 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &937549429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 937549425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 719a3f627aa79144f820028701eb6bf9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  URLString: https://github.com/ambientlab-immersivelearning/ImmersiveLearning/blob/objects/ImmersiveLearning/AssetBundles/StandaloneWindows/testbundle.unity3d
