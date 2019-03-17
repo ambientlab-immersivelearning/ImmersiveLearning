@@ -1,7 +1,10 @@
 ManifestFileVersion: 0
-CRC: 1296564344
+CRC: 352726649
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
       Name: testbundle.unity3d
+      Dependencies: {}
+    Info_1:
+      Name: testbundle2.unity3d
       Dependencies: {}
