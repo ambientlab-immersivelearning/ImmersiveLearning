@@ -9,65 +9,90 @@ using UnityEngine.Networking;
 using UnityScript.Scripting.Pipeline;
 
 public class WWWHandler : MonoBehaviour {
-    public string URLString = "https://github.com/ambientlab-immersivelearning/ImmersiveLearning/blob/objects/ImmersiveLearning/AssetBundles/StandaloneWindows/testbundle.unity3d";
+    public string URLString =
+        "https://github.com/ambientlab-immersivelearning/ImmersiveLearning/raw/objects/ImmersiveLearning/AssetBundles/StandaloneWindows/testbundle2.unity3d";
 
-    public List<Bundle> Assets;
-    
+    public List<Bundle> Assets = new List<Bundle>();
+
     void Start() {
         StartCoroutine(GetAssetBundle());
     }
- 
+
     IEnumerator GetAssetBundle() {
-        Bundle bundle;
+        Bundle bundle = new Bundle();
         List<AssetObject> objList = new List<AssetObject>();
-        AssetBundle assetBundle;
-        UnityWebRequest www = UnityWebRequestAssetBundle.GetAssetBundle("https://github.com/ambientlab-immersivelearning/ImmersiveLearning/raw/objects/ImmersiveLearning/AssetBundles/StandaloneWindows/testbundle.unity3d");
+        UnityWebRequest www = UnityWebRequestAssetBundle.GetAssetBundle(URLString);
         yield return www.SendWebRequest();
- 
-        if(www.isNetworkError || www.isHttpError) {
-            Debug.Log(www.error);
+
+        if (www.isNetworkError || www.isHttpError) {
+            throw new Exception("WWW download had an error:" + www.error);
         }
-        else {
-            assetBundle = DownloadHandlerAssetBundle.GetContent(www);
 
-            Debug.Log("Finished GET");
-            
-            TextAsset dataFile = assetBundle.LoadAsset("objects.json") as TextAsset;
-            
-            Debug.Log("JSON File: \n\"" + dataFile + "\"");
+        AssetBundle assetBundle = DownloadHandlerAssetBundle.GetContent(www);
 
-            string cleanData = Regex.Replace(dataFile.text, @"[^.0-9a-zA-Z]", "");
+        Debug.Log("LOG: Asset Bundled download completed.");
 
-            Debug.Log("Cleaned String: \n\"" + cleanData + "\"");
-            
-            string dataNoType = Regex.Replace(cleanData, ".prefab", "\n");
+        // Get name of asset bundle from info.json
+        TextAsset infoFile = assetBundle.LoadAsset("info.json") as TextAsset;
 
-            Debug.Log("Removed File Type: \n" + dataNoType);
-                        
-            string[] namesArray = Regex.Split(dataNoType, "\n");
+        if (infoFile == null) {
+            Debug.Log("ERROR: ~/info.json not found.");
+        } else {
+            string cleanName = Regex.Replace(infoFile.text, @"[^.0-9a-zA-Z]", "");
 
-            List<string> namesList = namesArray.ToList();
-            
-            for (int i = 0; i < namesList.Count; i++) {
-                if (namesList[i] == "") {
-                    namesList.RemoveAt(i);
-                }
-            }
+            Debug.Log("LOG: Asset Bundle " + cleanName + " found.");
 
-            foreach (var objName in namesList) {
-                Debug.Log(objName);
-            }
+            string nameNoType = Regex.Replace(cleanName, ".unity3d", "");
 
-            foreach (var objName in namesList) {
-                var prefab = assetBundle.LoadAsset<GameObject>(objName);
-                GameObject obj = Instantiate(prefab);
-                AssetObject asset = new AssetObject(objName, obj);
-                objList.Append(asset);
-                asset.Object.SetActive(false);
-            }
-
-            assetBundle.Unload(false);
+            bundle.Name = nameNoType;
         }
+
+        // Get names of objects in asset bundle from objects.json
+        TextAsset dataFile = assetBundle.LoadAsset("objects.json") as TextAsset;
+
+        if (dataFile == null) {
+            throw new Exception("FATAL ERROR: ~/objects.json not found. Cannot load objects.");
+        }
+
+        string cleanData = Regex.Replace(dataFile.text, @"[^.0-9a-zA-Z]", "");
+
+        string dataNoType = Regex.Replace(cleanData, ".prefab", "\n");
+
+        string[] namesArray = Regex.Split(dataNoType, "\n");
+
+        List<string> namesList = namesArray.ToList();
+
+        for (int i = 0; i < namesList.Count; i++) {
+            if (namesList[i] == "") {
+                namesList.RemoveAt(i);
+            }
+        }
+
+        Debug.Log("LOG: Object name parsing completed.");
+
+        foreach (var objName in namesList) {
+            var prefab = assetBundle.LoadAsset<GameObject>(objName);
+            GameObject obj = Instantiate(prefab);
+            AssetObject asset = new AssetObject(objName, obj);
+            objList.Add(asset);
+            asset.Object.SetActive(false);
+        }
+
+        Debug.Log("Objects: " + objList.Count);
+
+        bundle.Objects = objList;
+
+        foreach (var obj in objList) {
+            Debug.Log(bundle.Name + " Asset: " + obj.Name);
+        }
+
+        Assets.Add(bundle);
+
+        foreach (var a in Assets) {
+            Debug.Log("Asset Bundle List: " + a.Name);
+        }
+
+        assetBundle.Unload(false);
     }
 }
 
@@ -79,7 +104,7 @@ public class Bundle {
 public class AssetObject {
     public string Name;
     public GameObject Object;
-    
+
     public AssetObject(string name, GameObject obj) {
         Name = name;
         Object = obj;
