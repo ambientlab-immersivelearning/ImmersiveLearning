@@ -32,7 +32,7 @@ public class WWWHandler : MonoBehaviour {
 
             Debug.Log("Finished GET");
             
-            TextAsset dataFile = assetBundle.LoadAsset("data.json") as TextAsset;
+            TextAsset dataFile = assetBundle.LoadAsset("objects.json") as TextAsset;
             
             Debug.Log("JSON File: \n\"" + dataFile + "\"");
 
