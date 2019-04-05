@@ -12,8 +12,10 @@ public class NenuQRCode : MonoBehaviour
     [Header("Set In Inspector")]
     public string qrCodeLink;
     public Text text;
+    public Button submit;
+    public Button Rescan;
 
-    void Start()
+    public void Start()
     {
         screenRect = new Rect(0, 0, Screen.width, Screen.height);
         camTexture = new WebCamTexture();
@@ -25,13 +27,12 @@ public class NenuQRCode : MonoBehaviour
         }
     }
 
-    void OnGUI()
+    public void OnGUI()
     {
         // drawing the camera on screen
         GUI.DrawTexture(screenRect, camTexture, ScaleMode.ScaleToFit);
         // do the reading — you might want to attempt to read less often than you draw on the screen for performance sake
-        try
-        {
+
             IBarcodeReader barcodeReader = new BarcodeReader();
             // decode the current frame
             var result = barcodeReader.Decode(camTexture.GetPixels32(),
@@ -41,18 +42,17 @@ public class NenuQRCode : MonoBehaviour
                 qrCodeLink = result.Text;
                 text.text = qrCodeLink;
                 Debug.Log("DECODED TEXT FROM QR: " + result.Text);
+                //ShowButtons();
             }
             else
             {
                 text.text = "NO QR CODE";
                 Debug.Log("Did not get QR");
             }
-        }
-        catch (System.Exception ex) { Debug.LogWarning(ex.Message); }
     }
 
-    void Update()
+    public static void ShowButtons()
     {
-        
+        Debug.Log("In show buttons");
     }
 }
