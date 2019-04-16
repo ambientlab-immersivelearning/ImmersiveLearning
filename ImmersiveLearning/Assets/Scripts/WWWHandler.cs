@@ -9,19 +9,32 @@ using UnityEngine.Networking;
 using UnityScript.Scripting.Pipeline;
 
 public class WWWHandler : MonoBehaviour {
-    public string URLString =
+    private string URLString =
         "https://github.com/ambientlab-immersivelearning/ImmersiveLearning/raw/objects/ImmersiveLearning/AssetBundles/StandaloneWindows/testbundle2.unity3d";
+    
+    private string URLString2 =
+        "https://github.com/ambientlab-immersivelearning/ImmersiveLearning/raw/objects/ImmersiveLearning/AssetBundles/StandaloneWindows/testbundle.unity3d";
 
     public List<Bundle> Assets = new List<Bundle>();
 
     void Start() {
-        StartCoroutine(GetAssetBundle());
+        StartCoroutine(GetAssetBundle(URLString));
+        StartCoroutine(GetAssetBundle(URLString2));
+        StartCoroutine(PrintAssets());
     }
 
-    IEnumerator GetAssetBundle() {
+    IEnumerator PrintAssets() {
+        yield return new WaitForSeconds(5f);
+        foreach (var a in Assets) {
+            Debug.Log("Asset Bundle List: " + a.Name);
+        }
+    }
+        
+    
+    IEnumerator GetAssetBundle(string url) {
         Bundle bundle = new Bundle();
         List<AssetObject> objList = new List<AssetObject>();
-        UnityWebRequest www = UnityWebRequestAssetBundle.GetAssetBundle(URLString);
+        UnityWebRequest www = UnityWebRequestAssetBundle.GetAssetBundle(url);
         yield return www.SendWebRequest();
 
         if (www.isNetworkError || www.isHttpError) {
@@ -87,12 +100,12 @@ public class WWWHandler : MonoBehaviour {
         }
 
         Assets.Add(bundle);
-
-        foreach (var a in Assets) {
-            Debug.Log("Asset Bundle List: " + a.Name);
-        }
-
+        
+        Debug.Log("Before Unload.");
+        
         assetBundle.Unload(false);
+        
+        Debug.Log("Finished Task.");        
     }
 }
 
