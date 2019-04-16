@@ -9,29 +9,9 @@ using UnityEngine.Networking;
 using UnityScript.Scripting.Pipeline;
 
 public class WWWHandler : MonoBehaviour {
-    private string URLString =
-        "https://github.com/ambientlab-immersivelearning/ImmersiveLearning/raw/objects/ImmersiveLearning/AssetBundles/StandaloneWindows/testbundle2.unity3d";
+    public static List<Bundle> Assets = new List<Bundle>();
     
-    private string URLString2 =
-        "https://github.com/ambientlab-immersivelearning/ImmersiveLearning/raw/objects/ImmersiveLearning/AssetBundles/StandaloneWindows/testbundle.unity3d";
-
-    public List<Bundle> Assets = new List<Bundle>();
-
-    void Start() {
-        StartCoroutine(GetAssetBundle(URLString));
-        StartCoroutine(GetAssetBundle(URLString2));
-        StartCoroutine(PrintAssets());
-    }
-
-    IEnumerator PrintAssets() {
-        yield return new WaitForSeconds(5f);
-        foreach (var a in Assets) {
-            Debug.Log("Asset Bundle List: " + a.Name);
-        }
-    }
-        
-    
-    IEnumerator GetAssetBundle(string url) {
+    public static IEnumerator GetAssetBundle(string url) {
         Bundle bundle = new Bundle();
         List<AssetObject> objList = new List<AssetObject>();
         UnityWebRequest www = UnityWebRequestAssetBundle.GetAssetBundle(url);

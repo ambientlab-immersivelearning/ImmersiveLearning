@@ -1,58 +1,44 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
 using ZXing;
 
-public class NenuQRCode : MonoBehaviour
-{
+public class NenuQRCode : MonoBehaviour {
     private WebCamTexture camTexture;
     private Rect screenRect;
 
-    [Header("Set In Inspector")]
-    public string qrCodeLink;
-    public Text text;
-    public Button submit;
-    public Button Rescan;
-
-    public void Start()
-    {
+    public void Start() {
         screenRect = new Rect(0, 0, Screen.width, Screen.height);
         camTexture = new WebCamTexture();
         camTexture.requestedHeight = Screen.height;
         camTexture.requestedWidth = Screen.width;
-        if (camTexture != null)
-        {
+        if (camTexture != null) {
             camTexture.Play();
         }
     }
 
-    public void OnGUI()
-    {
+    public void OnGUI() {
         // drawing the camera on screen
         GUI.DrawTexture(screenRect, camTexture, ScaleMode.ScaleToFit);
         // do the reading — you might want to attempt to read less often than you draw on the screen for performance sake
 
-            IBarcodeReader barcodeReader = new BarcodeReader();
-            // decode the current frame
-            var result = barcodeReader.Decode(camTexture.GetPixels32(),
-              camTexture.width, camTexture.height);
-            if (result != null)
-            {
-                qrCodeLink = result.Text;
-                text.text = qrCodeLink;
-                Debug.Log("DECODED TEXT FROM QR: " + result.Text);
-                //ShowButtons();
-            }
-            else
-            {
-                text.text = "NO QR CODE";
-                Debug.Log("Did not get QR");
-            }
+        IBarcodeReader barcodeReader = new BarcodeReader();
+        // decode the current frame
+        var result = barcodeReader.Decode(camTexture.GetPixels32(),
+            camTexture.width, camTexture.height);
+        if (result != null) {
+            camTexture.Stop();
+            string qrCode = result.Text;
+            Debug.Log("DECODED TEXT FROM QR: " + result.Text);
+            StartCoroutine(WWWHandler.GetAssetBundle(qrCode));
+        } else {
+            Debug.Log("Did not get QR");
+        }
     }
 
-    public static void ShowButtons()
-    {
+    public static void ShowButtons() {
         Debug.Log("In show buttons");
     }
 }
