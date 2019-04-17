@@ -3,10 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.Networking;
-using UnityScript.Scripting.Pipeline;
 
 public class WWWHandler : MonoBehaviour {
     public static List<Bundle> Assets = new List<Bundle>();
