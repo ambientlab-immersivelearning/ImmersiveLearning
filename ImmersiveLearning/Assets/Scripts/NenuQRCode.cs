@@ -25,14 +25,20 @@ public class NenuQRCode : MonoBehaviour {
         // do the reading — you might want to attempt to read less often than you draw on the screen for performance sake
 
         IBarcodeReader barcodeReader = new BarcodeReader();
+        
         // decode the current frame
-        var result = barcodeReader.Decode(camTexture.GetPixels32(),
-            camTexture.width, camTexture.height);
+        Result result = null;
+
+        if (camTexture.isPlaying) {
+            result = barcodeReader.Decode(camTexture.GetPixels32(), camTexture.width, camTexture.height);
+        }
+
         if (result != null) {
             camTexture.Stop();
             string qrCode = result.Text;
             Debug.Log("DECODED TEXT FROM QR: " + result.Text);
             StartCoroutine(WWWHandler.GetAssetBundle(qrCode));
+            enabled = false;
         } else {
             Debug.Log("Did not get QR");
         }
