@@ -83,7 +83,7 @@ public class WWWHandler : MonoBehaviour {
         
         assetBundle.Unload(false);
         
-        Debug.Log("Finished Task.");        
+        Debug.Log("Finished Task.");
     }
 }
 
