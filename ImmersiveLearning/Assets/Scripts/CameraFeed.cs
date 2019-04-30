@@ -65,6 +65,9 @@ public class CameraFeed : MonoBehaviour
             Debug.Log("DECODED TEXT: " + qrResult);
             statusText.text = qrResult;
 
+            // Load in objects from URL
+            StartCoroutine(WWWHandler.GetAssetBundle(qrResult));
+
             // Deactivate the camera
             photoCaptureObject.StopPhotoModeAsync(OnStoppedPhotoMode);
         }

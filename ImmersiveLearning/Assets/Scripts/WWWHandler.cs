@@ -66,7 +66,7 @@ public class WWWHandler : MonoBehaviour {
             GameObject obj = Instantiate(prefab);
             AssetObject asset = new AssetObject(objName, obj);
             objList.Add(asset);
-            asset.Object.SetActive(false);
+            asset.Object.SetActive(true);   // CHANGE TO FALSE LATER
         }
 
         Debug.Log("Objects: " + objList.Count);
