@@ -12,7 +12,7 @@ public class WWWHandler : MonoBehaviour {
     public static IEnumerator GetAssetBundle(string url) {
         Bundle bundle = new Bundle();
         List<AssetObject> objList = new List<AssetObject>();
-        UnityWebRequest www = UnityWebRequestAssetBundle.GetAssetBundle(url);
+        UnityWebRequest www = UnityWebRequestAssetBundle.GetAssetBundle(url + '/');
         yield return www.SendWebRequest();
 
         if (www.isNetworkError || www.isHttpError) {
