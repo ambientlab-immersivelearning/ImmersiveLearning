@@ -16,7 +16,13 @@ public class WWWHandler : MonoBehaviour {
         yield return www.SendWebRequest();
 
         if (www.isNetworkError || www.isHttpError) {
-            throw new Exception("WWW download had an error:" + www.error);
+            if (www.isNetworkError){
+                Debug.Log("Network Error: " + www.error + ". Prevented exception.");
+                Debug.Log("URL at Error: '" + url + "'");
+            }
+            else if (www.isHttpError) {
+                throw new Exception("WWW download had an error:" + www.error);
+            }
         }
 
         AssetBundle assetBundle = DownloadHandlerAssetBundle.GetContent(www);
