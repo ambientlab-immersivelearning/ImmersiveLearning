@@ -1,50 +1,108 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.XR.WSA.WebCam;
 using ZXing;
 
 public class NenuQRCode : MonoBehaviour {
+    public enum State
+    {
+        Preparing,
+        Scanning,
+        Displaying
+    };
+
+    public static State state;
+
+    public Text statusText;
+    public Dropdown dropdown;
+
     private WebCamTexture camTexture;
     private Rect screenRect;
 
-    public void Start() {
-        screenRect = new Rect(0, 0, Screen.width, Screen.height);
+    GameObject quad = null;
+    Renderer quadRenderer;
+    Resolution cameraResolution;
+
+    private void Start()
+    {
+        // Get Camera specs
+        cameraResolution = PhotoCapture.SupportedResolutions.OrderByDescending((res) => res.width * res.height).First();
+        
+        // Create a GameObject to which the texture can be applied
+        quad = GameObject.CreatePrimitive(PrimitiveType.Quad);
+        quadRenderer = quad.GetComponent<Renderer>() as Renderer;
+        quadRenderer.material = new Material(Shader.Find("Unlit/Texture"));
+
+        quad.transform.parent = this.transform;
+        quad.transform.position = new Vector3(-0.6f, 0.0f, 3.0f);
+        quad.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
+
+        // Get Dropdown menu
+
+        NenuQR();
+    }
+
+    public void NenuQR()
+    {
+        // Display quad
+        quadRenderer.enabled = true;
+
         camTexture = new WebCamTexture();
-        camTexture.requestedHeight = Screen.height;
-        camTexture.requestedWidth = Screen.width;
+        camTexture.requestedHeight = cameraResolution.height;
+        camTexture.requestedWidth = cameraResolution.width;
+
         if (camTexture != null) {
             camTexture.Play();
         }
+
+        state = State.Scanning;
     }
 
-    public void OnGUI() {
-        // drawing the camera on screen
-        GUI.DrawTexture(screenRect, camTexture, ScaleMode.ScaleToFit);
-        // do the reading — you might want to attempt to read less often than you draw on the screen for performance sake
-
-        IBarcodeReader barcodeReader = new BarcodeReader();
-        
-        // decode the current frame
-        Result result = null;
-
-        if (camTexture.isPlaying) {
-            result = barcodeReader.Decode(camTexture.GetPixels32(), camTexture.width, camTexture.height);
+    public void Update() {
+        if (state == State.Preparing)
+        {
+            NenuQR();
         }
+        else if (state == State.Scanning)
+        {
+            // drawing the camera on screen
+            quadRenderer.material.SetTexture("_MainTex", camTexture);
 
-        if (result != null) {
-            camTexture.Stop();
-            string qrCode = result.Text;
-            Debug.Log("DECODED TEXT FROM QR: " + result.Text);
-            StartCoroutine(WWWHandler.GetAssetBundle(qrCode));
-            enabled = false;
-        } else {
-            Debug.Log("Did not get QR");
+            IBarcodeReader barcodeReader = new BarcodeReader();
+
+            // decode the current frame
+            Result result = null;
+
+            if (camTexture.isPlaying)
+            {
+                result = barcodeReader.Decode(camTexture.GetPixels32(), camTexture.width, camTexture.height);
+            }
+
+            if (result != null)
+            {
+                camTexture.Stop();
+
+                string qrCode = result.Text;
+
+                Debug.Log("DECODED TEXT FROM QR: " + result.Text);
+                statusText.text = "";
+
+                state = State.Displaying;
+
+                StartCoroutine(WWWHandler.GetAssetBundle(qrCode));
+
+                // disable quad
+                quadRenderer.enabled = false;
+            }
+            else
+            {
+                Debug.Log("Did not get QR");
+                statusText.text = "Scanning for QR code...";
+            }
         }
-    }
-
-    public static void ShowButtons() {
-        Debug.Log("In show buttons");
     }
 }

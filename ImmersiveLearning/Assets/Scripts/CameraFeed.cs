@@ -7,16 +7,62 @@ using UnityEngine.UI;
 
 public class CameraFeed : MonoBehaviour
 {
+    public enum State
+    {
+        Preparing,
+        Scanning,
+        Displaying
+    };
+
+    public static State state;
+
     public Text statusText;
 
     PhotoCapture photoCaptureObject = null;
     Texture2D targetTexture = null;
     GameObject quad = null;
     Renderer quadRenderer;
+    Resolution cameraResolution;
+
+    private void Start()
+    {
+        state = State.Scanning;
+
+        cameraResolution = PhotoCapture.SupportedResolutions.OrderByDescending((res) => res.width * res.height).First();
+        targetTexture = new Texture2D(cameraResolution.width, cameraResolution.height);
+
+        // Create a GameObject to which the texture can be applied
+        quad = GameObject.CreatePrimitive(PrimitiveType.Quad);
+        quadRenderer = quad.GetComponent<Renderer>() as Renderer;
+        quadRenderer.material = new Material(Shader.Find("Unlit/Texture"));
+
+        quad.transform.parent = this.transform;
+        quad.transform.position = new Vector3(-0.6f, 0.0f, 3.0f);
+        quad.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
+
+        QRScan();
+    }
+
+    private void Update()
+    {
+        /*
+        if (state == State.Preparing)
+        {
+            QRScan();
+        }
+        */
+    }
 
     // Use this for initialization
-    void Start()
+    void QRScan()
     {
+        /*state = State.Scanning;*/
+
+        if (state == State.Scanning && quadRenderer.enabled == false)
+        {
+            quadRenderer.enabled = true;
+        }
+/*
         Resolution cameraResolution = PhotoCapture.SupportedResolutions.OrderByDescending((res) => res.width * res.height).First();
         targetTexture = new Texture2D(cameraResolution.width, cameraResolution.height);
 
@@ -26,9 +72,9 @@ public class CameraFeed : MonoBehaviour
         quadRenderer.material = new Material(Shader.Find("Unlit/Texture"));
 
         quad.transform.parent = this.transform;
-        quad.transform.position = new Vector3(-0.6f, -0.3f, 3.0f);
+        quad.transform.position = new Vector3(-0.6f, 0.0f, 3.0f);
         quad.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
-
+ */
         // Create a PhotoCapture object
         PhotoCapture.CreateAsync(false, delegate (PhotoCapture captureObject)
         {
@@ -63,16 +109,19 @@ public class CameraFeed : MonoBehaviour
         {
             string qrResult = qrCode.Text;
             Debug.Log("DECODED TEXT: " + qrResult);
-            statusText.text = qrResult;
+            statusText.text = "";
+
+            state = State.Displaying;
 
             // Load in objects from URL
             StartCoroutine(WWWHandler.GetAssetBundle(qrResult));
 
+            quadRenderer.enabled = false;
+
             // Deactivate the camera
-            photoCaptureObject.StopPhotoModeAsync(OnStoppedPhotoMode);
-        }
-        else
-        {
+            /*photoCaptureObject.StopPhotoModeAsync(OnStoppedPhotoMode);*/
+
+        } else {
             Debug.Log("QR code not detected");
             statusText.text = "Scanning for QR code...";
             // Take another picture

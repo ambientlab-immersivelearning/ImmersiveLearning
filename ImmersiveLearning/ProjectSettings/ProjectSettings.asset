@@ -596,6 +596,7 @@ PlayerSettings:
       HumanInterfaceDevice: False
       InputInjectionBrokered: False
       InternetClient: True
+      InternetClientServer: False
       Location: False
       LowLevelDevices: False
       Microphone: True

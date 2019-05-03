@@ -72,7 +72,7 @@ public class WWWHandler : MonoBehaviour {
             GameObject obj = Instantiate(prefab);
             AssetObject asset = new AssetObject(objName, obj);
             objList.Add(asset);
-            asset.Object.SetActive(true);   // CHANGE TO FALSE LATER
+            asset.Object.GetComponent<Renderer>().enabled = true;
         }
 
         Debug.Log("Objects: " + objList.Count);
@@ -84,12 +84,39 @@ public class WWWHandler : MonoBehaviour {
         }
 
         Assets.Add(bundle);
+
+        DropdownHandler.repopulate = true;
         
         Debug.Log("Before Unload.");
         
         assetBundle.Unload(false);
         
         Debug.Log("Finished Task.");
+    }
+
+    // Used to clear Assets List when scanning new QR code
+    public static void DestroyAssets()
+    {
+        if (Assets.Count != 0)
+        {
+            Debug.Log("LOG: List Assets contains objects: " + Assets);
+
+            foreach (Bundle b in Assets)
+            {
+                foreach (AssetObject obj in b.Objects)
+                {
+                    Destroy(obj.Object);
+                }
+                b.Objects.Clear();
+            }
+
+            Assets.Clear();
+
+            Debug.Log("LOG: Cleared List Assets");
+        } else
+        {
+            Debug.Log("LOG: List Assests is already empty.");
+        }
     }
 }
 
@@ -107,3 +134,4 @@ public class AssetObject {
         Object = obj;
     }
 }
+
