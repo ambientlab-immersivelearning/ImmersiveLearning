@@ -67,12 +67,32 @@ public class WWWHandler : MonoBehaviour {
 
         Debug.Log("LOG: Object name parsing completed.");
 
-        foreach (var objName in namesList) {
+        foreach (var objName in namesList)
+        {
             var prefab = assetBundle.LoadAsset<GameObject>(objName);
             GameObject obj = Instantiate(prefab);
             AssetObject asset = new AssetObject(objName, obj);
             objList.Add(asset);
-            asset.Object.GetComponent<Renderer>().enabled = true;
+
+            if (obj.GetComponentsInChildren<Transform>().Length > 0)
+            {
+                Transform[] children = obj.GetComponentsInChildren<Transform>(); 
+
+                Debug.Log("LOG (WWWHandler.cs): Number of children: " + (children.Length - 1));
+
+                foreach (Transform child in children)
+                {
+                    if (child.gameObject.GetInstanceID() != obj.GetInstanceID())
+                    {
+                        child.gameObject.GetComponent<Renderer>().enabled = true;
+                    }
+                }
+            }
+            else
+            {
+
+                asset.Object.GetComponent<Renderer>().enabled = true;
+            }
         }
 
         Debug.Log("Objects: " + objList.Count);
@@ -103,9 +123,23 @@ public class WWWHandler : MonoBehaviour {
 
             foreach (Bundle b in Assets)
             {
-                foreach (AssetObject obj in b.Objects)
+                foreach (AssetObject _object in b.Objects)
                 {
-                    Destroy(obj.Object);
+                    GameObject obj = _object.Object;
+
+                    Transform[] children = obj.GetComponentsInChildren<Transform>();
+
+                    Debug.Log("LOG (WWWHandler.cs): Number of children: " + children.Length);
+
+                    if (children.Length > 0)
+                    {
+                        // If Object is a parent of other GameObjects
+                        foreach (Transform child in children)
+                        {
+                            Destroy(child.GetComponent<GameObject>());
+                        }
+                    }
+                    Destroy(obj);
                 }
                 b.Objects.Clear();
             }
