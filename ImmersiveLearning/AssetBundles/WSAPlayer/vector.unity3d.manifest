@@ -1,0 +1,37 @@
+ManifestFileVersion: 0
+CRC: 597922501
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: f433f067b437b98e645f1a8b08d4a19f
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 2f94ff2ec3ba54db36c38e71314717ca
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 49
+  Script: {instanceID: 0}
+- Class: 136
+  Script: {instanceID: 0}
+Assets:
+- Assets/Prefabs/vector/Cylinder2.prefab
+- Assets/Prefabs/vector/Cylinder.prefab
+- Assets/Prefabs/vector/Capsule.prefab
+- Assets/Prefabs/vector/info.json
+- Assets/Prefabs/vector/objects.json
+- Assets/Prefabs/vector/Cylinder1.prefab
+Dependencies: []
