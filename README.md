@@ -1,10 +1,10 @@
 # Immersive Learning
 
-Immersive Learning is one of the many projects being conducted by the Ambient Lab at the University of Hawaii at Manoa. This is the second attempt to create the implement the project. The previous attempt in 2016 was able to create a simple, working version of the project, but the work that was completed is now inaccessible.
+Immersive Learning is one of the many projects being conducted at the University of Hawaii at Manoa through the Ambient Lab and Dr. Darren Carlson. This is the second attempt to create an implementation of this project. In 2016, a different team of students were able to create a simple, working version of the project, but the work that was completed is now inaccessible.
 
 ## Objective
 
-The goal of Immersive Learning is to create a platform that enhances the learning experience for students by immersing them in the material with virtual 3D objects. Augmented reality (AR) to display virtual objects over the real world without completely obstructing it. Implementing this technology in a classroom, physical or online, can allow students to observe and interact with objects that represent images or diagrams seen on videos or presentation slides during the lesson.
+The goal of Immersive Learning is to create an application or platform that enhances the learning experience for students by immersing them in the material with virtual 3D objects. We use augmented reality (AR) to display virtual objects over the real world without completely obstructing it. Implementing this technology in a classroom, physical or online, can allow students to observe and interact with objects that represent images or diagrams seen on videos or presentation slides during the lesson.
 
 The application will be implemented using the C# and Unity game engine, and will be deployed to the Microsoft HoloLens.
 
@@ -26,12 +26,6 @@ The Ambient Lab is an experimental space managed by Dr. Darren Carlson. Although
       <li><a href="https://github.com/g-tolentino">Glesa Mae Tolentino</a></li>
     </ul>
   </li>
-</ul>
-
-## Set up
-<ul>
-  <li>To build the applicaiton</li>
-  <li>To run the application</li>
 </ul>
 
 ## Creating QR Codes
